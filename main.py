@@ -15,10 +15,10 @@
 # limitations under the License.
 #
 import webapp2
-import validators
 
-# html boilerplate for the top of every page
-page_header = """
+
+# html boilerplate for the top of main page
+main_page_header = """
 <!DOCTYPE html>
 <html>
 <head>
@@ -28,10 +28,19 @@ page_header = """
 </head>
 <body>
     <h1>Signup</h1>
+"""
 
+welcome_page_header = """
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Welcome</title>
+</head>
+<body>
 """
 
 # html boilerplate for the bottom of every page
+
 page_footer = """
 </body>
 </html>
@@ -40,8 +49,8 @@ page_footer = """
 
 class MainHandler(webapp2.RequestHandler):
     def get(self):
-        add_form = """
-        <form action="/add" method="post">
+        welcome_form = """
+        <form action="/welcome" method="post">
             <table>
                 <tbody>
                     <tr>
@@ -82,21 +91,32 @@ class MainHandler(webapp2.RequestHandler):
         </form>
         """
 
+        content = main_page_header + welcome_form +  page_footer
+        self.response.write(content)
 
+class WelcomeHandler(webapp2.RequestHandler):
+    def get(self):
+        # look inside the request to figure out what the user typed
+        username = self.request.get("user-name")
 
-# make form for signup fields
-#make submit button
-#make successful redirect page
-#validate inputs
+        sentence = "Welcome, " + username + "!"
+        content = welcome_page_header + "<h1>" + sentence + "</h1>" + page_footer
+        self.response.write(content)
 
+    def post(self):
+        # look inside the request to figure out what the user typed
+        username = self.request.get("user-name")
 
-
-        content = page_header + add_form +  page_footer
+        sentence = "Welcome, " + username + "!"
+        content = welcome_page_header + "<h1>" + sentence + "</h1>" + page_footer
         self.response.write(content)
 
 
-
-
 app = webapp2.WSGIApplication([
-    ('/', MainHandler)
+    ('/', MainHandler),
+    ('/welcome', WelcomeHandler)
 ], debug=True)
+
+
+#validate inputs
+#make error messages
