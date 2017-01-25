@@ -46,52 +46,51 @@ page_footer = """
 </html>
 """
 
+welcome_form = """
+<form action="/welcome" method="post">
+    <table>
+        <tbody>
+            <tr>
+                <td>
+                    <label for="username">Username</label>
+                </td>
+                <td>
+                    <input type="text" name="user-name"/>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="password">Password</label>
+                </td>
+                <td>
+                    <input type="password" name="password1"/>
+                <td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="verify">Verify Password</label>
+                </td>
+                <td>
+                    <input type="password" name="password2"/>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="email">Email (optional)</label>
+                </td>
+                <td>
+                    <input type="email" name="email"/>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <input type="submit" value="Submit"/>
+</form>
+"""
 
 class MainHandler(webapp2.RequestHandler):
     def get(self):
-        welcome_form = """
-        <form action="/welcome" method="post">
-            <table>
-                <tbody>
-                    <tr>
-                        <td>
-                            <label for="username">Username</label>
-                        </td>
-                        <td>
-                            <input type="text" name="user-name"/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label for="password">Password</label>
-                        </td>
-                        <td>
-                            <input type="password" name="password1"/>
-                        <td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label for="verify">Verify Password</label>
-                        </td>
-                        <td>
-                            <input type="password" name="password2"/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label for="email">Email (optional)</label>
-                        </td>
-                        <td>
-                            <input type="email" name="email"/>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-            <input type="submit" value="Submit"/>
-        </form>
-        """
-
-        content = main_page_header + welcome_form +  page_footer
+        content = main_page_header + welcome_form + page_footer
         self.response.write(content)
 
 class WelcomeHandler(webapp2.RequestHandler):
