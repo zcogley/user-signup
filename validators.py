@@ -6,7 +6,12 @@ Pass_Re = re.compile(r"^.{3,20}$")
 Email_Re = re.compile(r"^[\S]+@[\S]+.[\S]+$")
 
 def valid_username(username):
-    return User_Re.match(username)
+    if username == "":
+        return ""
+    if User_Re.match(username):
+        return username
+    else:
+        return False
 
 def valid_password(password):
     return Pass_Re.match(password)
@@ -20,6 +25,6 @@ def verify_password(password1, password2):
     return False
 
 
-email = ""
+username = ""
 
-print(valid_email(email))
+print(valid_username(username))
