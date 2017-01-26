@@ -46,6 +46,11 @@ page_footer = """
 </html>
 """
 
+username_error = "That's not a valid username."
+password1_error = "That's not a valid password."
+password2_error = "Your passwords don't match."
+email_error = "That's not a valid email."
+
 welcome_form = """
 <form action="/welcome" method="post">
     <table>
@@ -56,6 +61,7 @@ welcome_form = """
                 </td>
                 <td>
                     <input type="text" name="user-name"/>
+                    <span class="error">{}</span>
                 </td>
             </tr>
             <tr>
@@ -64,6 +70,7 @@ welcome_form = """
                 </td>
                 <td>
                     <input type="password" name="password1"/>
+                    <span class="error">{}</span>
                 <td>
             </tr>
             <tr>
@@ -72,6 +79,7 @@ welcome_form = """
                 </td>
                 <td>
                     <input type="password" name="password2"/>
+                    <span class="error">{}</span>
                 </td>
             </tr>
             <tr>
@@ -80,13 +88,16 @@ welcome_form = """
                 </td>
                 <td>
                     <input type="email" name="email"/>
+                    <span class="error">{}</span>
                 </td>
             </tr>
         </tbody>
     </table>
     <input type="submit" value="Submit"/>
 </form>
-"""
+""".format(username_error, password1_error, password2_error, email_error)
+
+
 
 class MainHandler(webapp2.RequestHandler):
     def get(self):
