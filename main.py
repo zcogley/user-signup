@@ -121,6 +121,11 @@ class MainHandler(webapp2.RequestHandler):
         content = main_page_header + welcome_form + page_footer
         self.response.write(content)
 
+# not doing anything right now
+    def post(self):
+        content = main_page_header + welcome_form + page_footer
+        self.response.write(content)
+
 class WelcomeHandler(webapp2.RequestHandler):
     def post(self):
         # look inside the request to figure out what the user typed
@@ -139,3 +144,4 @@ app = webapp2.WSGIApplication([
 
 #validate inputs
 #make error variable
+#need to look at user input and if ""
