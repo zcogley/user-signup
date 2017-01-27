@@ -130,6 +130,9 @@ class WelcomeHandler(webapp2.RequestHandler):
     def post(self):
         # look inside the request to figure out what the user typed
         username = self.request.get("user-name")
+        password1 = self.request.get("password1")
+        password2 = self.request.get("password")
+        email = self.request.get("email")
 
         sentence = "Welcome, " + username + "!"
         content = welcome_page_header + "<h1>" + sentence + "</h1>" + page_footer
