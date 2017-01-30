@@ -46,10 +46,15 @@ page_footer = """
 </html>
 """
 
-username_error = "That's not a valid username."
-password1_error = "That's not a valid password."
-password2_error = "Your passwords don't match."
-email_error = "That's not a valid email."
+error1 = ""
+error2 = ""
+error3 = ""
+error4 = ""
+
+username_error = ""
+password1_error = ""
+password2_error = ""
+email_error = ""
 
 welcome_form = """
 <form action="/welcome" method="post">
@@ -118,6 +123,18 @@ def verify_password(password1, password2):
 
 class MainHandler(webapp2.RequestHandler):
     def get(self):
+        if error1 == "True":
+            username_error = "That's not a valid username."
+
+        if error2 == "True":
+            password1_error = "That's not a valid password."
+
+        if error3 == "True":
+            password2_error = "Your passwords don't match."
+
+        if error4 == "True":
+            email_error = "That's not a valid email."
+
         content = main_page_header + welcome_form + page_footer
         self.response.write(content)
 
@@ -131,8 +148,33 @@ class WelcomeHandler(webapp2.RequestHandler):
         # look inside the request to figure out what the user typed
         username = self.request.get("user-name")
         password1 = self.request.get("password1")
-        password2 = self.request.get("password")
+        password2 = self.request.get("password2")
         email = self.request.get("email")
+
+        redirect = False
+        error1 = ""
+        error2 = ""
+        error3 = ""
+        error4 = ""
+
+        if not valid_username(username):
+            redirect = True
+            error1 = "True"
+
+        if not valid_password(password1):
+            redirect = True
+            error2 = "True"
+
+        if password1 != password2:
+            redirect = True
+            error3 = "True"
+
+        if not valid_email:
+            redirect = True
+            error4 = "True"
+
+        if redirect == True:
+            self.redirect('/?error1=' + error1 + '&error2=' + error2 + '&error3=' + error3 + '&error4=' + error4)
 
         sentence = "Welcome, " + username + "!"
         content = welcome_page_header + "<h1>" + sentence + "</h1>" + page_footer
