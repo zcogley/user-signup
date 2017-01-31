@@ -16,6 +16,7 @@
 #
 import webapp2
 import re
+import validators
 
 # html boilerplate for the top of main page
 main_page_header = """
@@ -50,24 +51,6 @@ username_error = ""
 password1_error = ""
 password2_error = ""
 email_error = ""
-
-User_Re = re.compile(r"^[a-zA-Z0-9_-]{3,20}$")
-Pass_Re = re.compile(r"^.{3,20}$")
-Email_Re = re.compile(r"^[\S]+@[\S]+.[\S]+$")
-
-def valid_username(username):
-    return User_Re.match(username)
-
-def valid_password(password):
-    return Pass_Re.match(password)
-
-def valid_email(email):
-    return Email_Re.match(email)
-
-def verify_password(password1, password2):
-    if password1 == password2:
-        return True
-    return False
 
 
 class MainHandler(webapp2.RequestHandler):
@@ -164,11 +147,11 @@ class WelcomeHandler(webapp2.RequestHandler):
         error3 = ""
         error4 = ""
 
-        if not valid_username(username):
+        if not validators.valid_username(username):
             redirect = True
             error1 = "True"
 
-        if not valid_password(password1):
+        if not validators.valid_password(password1):
             redirect = True
             error2 = "True"
 
@@ -176,7 +159,7 @@ class WelcomeHandler(webapp2.RequestHandler):
             redirect = True
             error3 = "True"
 
-        if not valid_email(email) and email != "":
+        if not validators.valid_email(email) and email != "":
             redirect = True
             error4 = "True"
 

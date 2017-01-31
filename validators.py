@@ -19,10 +19,6 @@ def valid_password(password):
 def valid_email(email):
     return Email_Re.match(email)
 
-def verify_password(password1, password2):
-    if password1 == password2:
-        return True
-    return False
 
 
 username = ""
