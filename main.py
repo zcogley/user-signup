@@ -46,61 +46,10 @@ page_footer = """
 </html>
 """
 
-error1 = ""
-error2 = ""
-error3 = ""
-error4 = ""
-
 username_error = ""
 password1_error = ""
 password2_error = ""
 email_error = ""
-
-welcome_form = """
-<form action="/welcome" method="post">
-    <table>
-        <tbody>
-            <tr>
-                <td>
-                    <label for="username">Username</label>
-                </td>
-                <td>
-                    <input type="text" name="user-name"/>
-                    <span class="error">{}</span>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <label for="password">Password</label>
-                </td>
-                <td>
-                    <input type="password" name="password1"/>
-                    <span class="error">{}</span>
-                <td>
-            </tr>
-            <tr>
-                <td>
-                    <label for="verify">Verify Password</label>
-                </td>
-                <td>
-                    <input type="password" name="password2"/>
-                    <span class="error">{}</span>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <label for="email">Email (optional)</label>
-                </td>
-                <td>
-                    <input type="email" name="email"/>
-                    <span class="error">{}</span>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <input type="submit" value="Submit"/>
-</form>
-""".format(username_error, password1_error, password2_error, email_error)
 
 User_Re = re.compile(r"^[a-zA-Z0-9_-]{3,20}$")
 Pass_Re = re.compile(r"^.{3,20}$")
@@ -123,17 +72,75 @@ def verify_password(password1, password2):
 
 class MainHandler(webapp2.RequestHandler):
     def get(self):
+        error1 = self.request.get("error1")
         if error1 == "True":
             username_error = "That's not a valid username."
+        else:
+            username_error = ""
 
+        error2 = self.request.get("error2")
         if error2 == "True":
             password1_error = "That's not a valid password."
+        else:
+            password1_error = ""
 
+        error3 = self.request.get("error3")
         if error3 == "True":
             password2_error = "Your passwords don't match."
+        else:
+            password2_error = ""
 
+        error4 = self.request.get("error4")
         if error4 == "True":
             email_error = "That's not a valid email."
+        else:
+            email_error = ""
+
+        welcome_form = """
+        <form action="/welcome" method="post">
+            <table>
+                <tbody>
+                    <tr>
+                        <td>
+                            <label for="username">Username</label>
+                        </td>
+                        <td>
+                            <input type="text" name="user-name"/>
+                            <span class="error">{a}</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="password">Password</label>
+                        </td>
+                        <td>
+                            <input type="password" name="password1"/>
+                            <span class="error">{b}</span>
+                        <td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="verify">Verify Password</label>
+                        </td>
+                        <td>
+                            <input type="password" name="password2"/>
+                            <span class="error">{c}</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="email">Email (optional)</label>
+                        </td>
+                        <td>
+                            <input type="email" name="email"/>
+                            <span class="error">{d}</span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <input type="submit" value="Submit"/>
+        </form>
+        """.format(a=username_error, b=password1_error, c=password2_error, d=email_error)
 
         content = main_page_header + welcome_form + page_footer
         self.response.write(content)
@@ -169,7 +176,7 @@ class WelcomeHandler(webapp2.RequestHandler):
             redirect = True
             error3 = "True"
 
-        if not valid_email:
+        if not valid_email(email) and email != "":
             redirect = True
             error4 = "True"
 
